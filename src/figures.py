@@ -3,16 +3,34 @@ import math
 from typing import Union
 
 
-class Circle:
-    def __init__(self, **params):
-        self.params = params
-        self.radius = params["radius"]
+class FigureBAse:
 
+    def area(self) -> float:
+        pass
+
+
+class Circle(FigureBAse):
+
+    def __init__(self, **params: Union[int, float]) -> None:
+        if "radius" not in params:
+            raise ValueError("Circle must have a radius.")
+        if params["radius"] <= 0:
+            raise ValueError("Circle radius must be positive.")
+        self.params: dict[str, Union[int, float]] = params
+        self.radius: Union[int, float] = params["radius"]
+    """
+    Represents a geometric Circle with method to calculate its area.
+
+    :param params: A dictionary with the radius of the circle.
+    :type params: dict
+    :param radius: The radius of the circle.
+    :type radius: Union[int, float]
+    """
     def area(self) -> float:
         return math.pi * self.radius ** 2
 
 
-class Triangle:
+class Triangle(FigureBAse):
     """
     Represents a geometric Triangle with methods to validate its properties
     and calculate its area.
@@ -40,7 +58,7 @@ class Triangle:
             raise ValueError("Triangle is not valid: sum of two sides must be greater than third.")
         self.p = (self.a + self.b + self.c) / 2  # half perimeter of sides
 
-    def _is_right(self) -> bool:
+    def is_right(self) -> bool:
         """
         Check if the triangle is right-angled.
 
@@ -62,6 +80,6 @@ class Triangle:
         :returns: The area of the triangle.
         :rtype: float
         """
-        if self._is_right():
+        if self.is_right():
             return (self.a * self.b) / 2
         return math.sqrt(self.p * (self.p - self.a) * (self.p - self.b) * (self.p - self.c))
