@@ -12,3 +12,4 @@ venv.bak/
 
 
 .coverage
+*.egg-info/

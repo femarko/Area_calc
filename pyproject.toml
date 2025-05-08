@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "area-calc"
+version = "0.1.0"
+description = "Library for calculating the area of the figures"
+authors = [
+    { name = "Mark Fenster", email = "fenstermark7@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/femarko/Area_calc"
+"Source" = "https://github.com/femarko/Area_calc"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
