@@ -21,8 +21,8 @@ def test_base_figure_init_raises_value_error(figure, error_type, error_message):
 
 
 def test_base_figure_detect_decimal():
-    assert FigureBase.detect_decimal(1) is False
-    assert FigureBase.detect_decimal(Decimal(1)) is True
+    assert FigureBase.has_decimal(1) is False
+    assert FigureBase.has_decimal(Decimal(1)) is True
 
 
 def test_base_figure_area_raises_not_implemented_error():

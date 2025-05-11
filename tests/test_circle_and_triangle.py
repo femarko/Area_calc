@@ -41,13 +41,27 @@ def test_figures_constructors_raise_value_errors(factory, message):
 def test_circle_init_raises_type_error_when_radius_passed_as_string():
     with pytest.raises(TypeError) as e:
         Circle("radius")
-    assert str(e.value) == "All parameters must be: int, float, Decimal or sring where all characters are digits."
+    assert str(e.value) == "All parameters must be: int, float, Decimal or string where all characters are digits."
 
 def test_circle_init_raises_type_error_when_no_radius_passed():
     with pytest.raises(TypeError) as e:
         Circle()
     assert "missing 1 required positional argument: 'radius'" in str(e.value)
 
-@pytest.mark.parametrize("triangle,result", [(Triangle(3, 4, 5), True), (Triangle(5, 12, 11), False)])
-def test_triangle_is_right(triangle, result):
-    assert triangle.is_right() == result
+@pytest.mark.parametrize(
+    "triangle,expected", [
+        (Triangle(3, 4, 5), True),
+        (Triangle(5, 3, 4), True),
+        (Triangle(5, 12, 11), False),
+        (Triangle(5, 12, 13), True),
+        (Triangle(6, 8, 10), True),
+        (Triangle(1.5, 2.0, 2.5), True),
+        (Triangle(7, 24, 25), True),
+        (Triangle(5, 12, 11), False),
+        (Triangle(2, 2, 3), False),
+        (Triangle(10, 10, 14.1421356237), True),
+        (Triangle(Decimal(1.5), 2.0, 2.5), True),
+    ]
+)
+def test_triangle_is_right(triangle, expected):
+    assert triangle.is_right() == expected

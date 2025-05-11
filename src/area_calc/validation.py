@@ -23,7 +23,7 @@ def validate_params(*args: Any, **kwargs: Any) -> ValidParams:
     is a non-positive number
     :raises TypeError: If any parameter is not a number
     """
-    if not any((args, kwargs)):
+    if not args and not kwargs:
         raise ValueError("No parameters provided.")
 
     if (
@@ -40,7 +40,7 @@ def validate_params(*args: Any, **kwargs: Any) -> ValidParams:
                 (isinstance(v, str) and not v.isdigit())
                 for v in kwargs.values())
     ):
-        raise TypeError("All parameters must be: int, float, Decimal or sring where all characters are digits.")
+        raise TypeError("All parameters must be: int, float, Decimal or string where all characters are digits.")
 
     if any(isinstance(arg, str) for arg in args) or any(isinstance(v, str) for v in kwargs.values()):
         args: tuple[FigureParamNum, ...] = tuple(float(arg) if isinstance(arg, str) else arg for arg in args)

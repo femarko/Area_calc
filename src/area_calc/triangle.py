@@ -60,7 +60,7 @@ class Triangle(FigureBase):
         if self.sides[0] + self.sides[1] <= self.sides[2]:
             raise ValueError("Triangle is not valid: sum of two sides must be greater than third.")
 
-    def is_right(self, precision: int = 100) -> bool:
+    def is_right(self) -> bool:
         """
         Checks if the triangle is right-angled using Pythagorean theorem.
         Integer, float and Decimal sides are supported.
@@ -74,11 +74,12 @@ class Triangle(FigureBase):
         :rtype: bool
         """
 
-        if self.detect_decimal(*self.sides):
+        if self.has_decimal(*self.sides):
             with localcontext() as ctx:
-                ctx.prec = precision
-                sides: list[Decimal] = [Decimal(side) if not isinstance(side, Decimal) else side for side in self.sides]
-                return sides[0] ** 2 + sides[1] ** 2 - sides[2] ** 2 <= Decimal(f"1e-{precision - 1}")
+                ctx.prec = self.precision
+                result = self.sides[0] ** 2 + self.sides[1] ** 2 - self.sides[2] ** 2 <= \
+                         Decimal(f"1e-{self.precision - 1}")
+                return result
         return math.isclose(self.sides[0] ** 2 + self.sides[1] ** 2, self.sides[2] ** 2)
 
     @staticmethod
@@ -154,13 +155,12 @@ class Triangle(FigureBase):
 
         is_right = self.is_right()
 
-        if self.detect_decimal(*self.sides):
+        if self.has_decimal(*self.sides):
             with localcontext() as ctx:
-                ctx.prec = 100
-                sides: list[Decimal] = [Decimal(side) if not isinstance(side, Decimal) else side for side in self.sides]
+                ctx.prec = self.precision
                 if is_right:
-                    return self._get_right_triangle_area(catheti=sides, denominator=Decimal(2))
-                return self._squared_herons_area(sides=sides, half_perimeter=sum(self.sides) / Decimal(2)).sqrt()
+                    return self._get_right_triangle_area(catheti=self.sides, denominator=Decimal(2))
+                return self._squared_herons_area(sides=self.sides, half_perimeter=sum(self.sides) / Decimal(2)).sqrt()
         if is_right:
             return self._get_right_triangle_area(catheti=self.sides, denominator=2)
         return math.sqrt(self._squared_herons_area(sides=self.sides, half_perimeter=sum(self.sides) / 2))

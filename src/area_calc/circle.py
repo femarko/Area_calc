@@ -46,9 +46,9 @@ class Circle(FigureBase):
         :rtype: Union[int, float, Decimal]
         """
 
-        if self.detect_decimal(self.radius):
+        if self.has_decimal(self.radius):
             with localcontext() as ctx:
-                ctx.prec = 100
+                ctx.prec = self.precision
                 pi_101 = Decimal(
                     '3.141592653589793238462643383279502884197169399375105'
                     '8209749445923078164062862089986280348253421170679'

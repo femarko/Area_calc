@@ -10,12 +10,12 @@ from area_calc.validation import validate_params
     ((), {"example_param": -1}, ValueError, "All parameters must be positive."),
     ((0,), {}, ValueError, "All parameters must be positive."),
     ((), {"example_param": 0}, ValueError, "All parameters must be positive."),
-    ((True,), {}, TypeError, "All parameters must be: int, float, Decimal or sring where all characters are digits."),
-    ((), {"example_param": True}, TypeError, "All parameters must be: int, float, Decimal or sring where all "
+    ((True,), {}, TypeError, "All parameters must be: int, float, Decimal or string where all characters are digits."),
+    ((), {"example_param": True}, TypeError, "All parameters must be: int, float, Decimal or string where all "
                                              "characters are digits."),
-    (("non-digit string",), {}, TypeError, "All parameters must be: int, float, Decimal or sring where "
+    (("non-digit string",), {}, TypeError, "All parameters must be: int, float, Decimal or string where "
                                            "all characters are digits."),
-    ((), {"example_param": "non-digit string"}, TypeError, "All parameters must be: int, float, Decimal or sring "
+    ((), {"example_param": "non-digit string"}, TypeError, "All parameters must be: int, float, Decimal or string "
                                                             "where all characters are digits.")
 ])
 def test_validate_params_raises_errors_for_invalid_params(args, kwargs, error, message):
