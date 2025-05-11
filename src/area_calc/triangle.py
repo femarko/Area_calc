@@ -60,14 +60,25 @@ class Triangle(FigureBase):
         if self.sides[0] + self.sides[1] <= self.sides[2]:
             raise ValueError("Triangle is not valid: sum of two sides must be greater than third.")
 
-    def is_right(self) -> bool:
+    def is_right(self, precision: int = 100) -> bool:
         """
-        Check if the triangle is right-angled, based on the Pythagorean theorem.
+        Checks if the triangle is right-angled using Pythagorean theorem.
+        Integer, float and Decimal sides are supported.
+        If any of the sides are of type Decimal, the calculations are done with
+        the precision of 100. The presision can be changed by passing
+        a parameter.
 
+        :param precision: The precision for decimal calculations. Default is 100.
+        :type precision: int
         :returns: True if the triangle is right-angled, False otherwise.
         :rtype: bool
         """
 
+        if self.detect_decimal(*self.sides):
+            with localcontext() as ctx:
+                ctx.prec = precision
+                sides: list[Decimal] = [Decimal(side) if not isinstance(side, Decimal) else side for side in self.sides]
+                return sides[0] ** 2 + sides[1] ** 2 - sides[2] ** 2 <= Decimal(f"1e-{precision - 1}")
         return math.isclose(self.sides[0] ** 2 + self.sides[1] ** 2, self.sides[2] ** 2)
 
     @staticmethod
