@@ -2,7 +2,8 @@ import math
 from decimal import Decimal, localcontext
 from typing import Union
 
-from src.area_calc.base import FigureBase
+from area_calc.base import FigureBase
+from area_calc.types_naming import FigureParamInp, FigureParamNum
 
 
 class Triangle(FigureBase):
@@ -41,7 +42,7 @@ class Triangle(FigureBase):
         calculates the squared area of the triangle using heron's formula.
     """
 
-    def __init__(self, *sides: Union[int, float, Decimal]) -> None:
+    def __init__(self, *sides: FigureParamInp) -> None:
         """
         Initializes the Triangle with given side lengths and validates them.
 
@@ -53,9 +54,9 @@ class Triangle(FigureBase):
         """
 
         super().__init__(*sides)
-        if len(sides) != 3:
+        if len(self.args) != 3:
             raise ValueError("Triangle must have 3 sides.")
-        self.sides: list[Union[int, float, Decimal]] = sorted(sides)
+        self.sides: list[FigureParamNum] = sorted(self.args)
         if self.sides[0] + self.sides[1] <= self.sides[2]:
             raise ValueError("Triangle is not valid: sum of two sides must be greater than third.")
 
@@ -70,8 +71,8 @@ class Triangle(FigureBase):
         return math.isclose(self.sides[0] ** 2 + self.sides[1] ** 2, self.sides[2] ** 2)
 
     @staticmethod
-    def _get_right_triangle_area(catheti: list[Union[int, float, Decimal]],
-                                 denominator: Union[int, float, Decimal]) -> Union[int, float, Decimal]:
+    def _get_right_triangle_area(catheti: list[FigureParamNum],
+                                 denominator: FigureParamNum) -> FigureParamNum:
         """
         Static method.
 
@@ -95,8 +96,8 @@ class Triangle(FigureBase):
         return catheti[0] * catheti[1] / denominator
 
     @staticmethod
-    def _squared_herons_area(sides: list[Union[int, float, Decimal]],
-                             half_perimeter: Union[int, float, Decimal]) -> Union[int, float, Decimal]:
+    def _squared_herons_area(sides: list[FigureParamNum],
+                             half_perimeter: FigureParamNum) -> FigureParamNum:
 
         """
         Static method.
@@ -122,7 +123,7 @@ class Triangle(FigureBase):
                 half_perimeter * (half_perimeter - sides[0]) * (half_perimeter - sides[1]) * (half_perimeter - sides[2])
         )
 
-    def area(self) -> Union[int, float, Decimal]:
+    def area(self) -> FigureParamNum:
         """
         Calculates the area of the triangle.
 

@@ -29,6 +29,7 @@ Usage:
 
 from area_calc.circle import Circle
 from area_calc.triangle import Triangle
+from area_calc.types_naming import FigureParamInp, FigureParamNum, ValidParams
 
 
-__all__ = ["Circle", "Triangle"]
+__all__ = ["Circle", "Triangle", "FigureParamInp", "FigureParamNum", "ValidParams"]

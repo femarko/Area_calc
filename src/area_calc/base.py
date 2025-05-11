@@ -1,6 +1,9 @@
 from decimal import Decimal
 from typing import Union
 
+from area_calc.validation import validate_params
+from area_calc.types_naming import FigureParamInp, FigureParamNum
+
 
 class FigureBase:
     """
@@ -20,8 +23,8 @@ class FigureBase:
     """
 
     def __init__(self,
-                 *args: Union[int, float, Decimal],
-                 **kwargs: Union[int, float, Decimal]) -> None:
+                 *args: FigureParamInp,
+                 **kwargs: FigureParamInp) -> None:
         """
         Initialize the FigureBase.
         :param args: The list of non-keyword arguments.
@@ -30,15 +33,13 @@ class FigureBase:
         :type kwargs: dict[str, Union[int, float, Decimal]]
         :raises ValueError: If no parameters are provided or if any parameter is non-positive number.
         """
-
-        if not any((args, kwargs)):
-            raise ValueError("No parameters provided.")
-        if any(arg <= 0 for arg in args) or any(v <= 0 for v in kwargs.values()):
-            raise ValueError("All parameters must be positive.")
+        validated_params = validate_params(*args, **kwargs)
+        self.args: tuple[FigureParamNum, ...] = validated_params[0]
+        self.kwargs: dict[str, FigureParamNum] = validated_params[1]
 
     @staticmethod
-    def detect_decimal(*args: Union[int, float, Decimal],
-                       **kwargs: Union[int, float, Decimal]) -> bool:
+    def detect_decimal(*args: FigureParamNum,
+                       **kwargs: FigureParamNum) -> bool:
         """
         Detects whether any parameter is of type :class:`Decimal`.
 
@@ -51,7 +52,7 @@ class FigureBase:
         """
         return any(isinstance(arg, Decimal) for arg in args) or any(isinstance(v, Decimal) for v in kwargs.values())
 
-    def area(self) -> Union[int, float, Decimal]:
+    def area(self) -> FigureParamNum:
         """
         Calculates the area of the figure.
 

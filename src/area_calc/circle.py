@@ -3,6 +3,7 @@ from decimal import Decimal, localcontext
 from typing import Union
 
 from area_calc.base import FigureBase
+from area_calc.types_naming import FigureParamInp, FigureParamNum
 
 
 class Circle(FigureBase):
@@ -14,7 +15,7 @@ class Circle(FigureBase):
     :raises ValueError: If the radius is not a positive number.
     """
 
-    def __init__(self, radius: Union[int, float, Decimal]) -> None:
+    def __init__(self, radius: FigureParamInp) -> None:
         """
         Initialize the Circle.
 
@@ -22,11 +23,10 @@ class Circle(FigureBase):
         :type radius: Union[int, float, Decimal]
         :raises ValueError: If the radius is not a positive number.
         """
-
         super().__init__(radius)
-        self.radius: Union[int, float, Decimal] = radius
+        self.radius: FigureParamNum = self.args[0] if self.args else self.kwargs.get('radius', {})
 
-    def area(self) -> Union[int, float, Decimal]:
+    def area(self) -> FigureParamNum:
         """
         Calculates the area of the circle.
 
